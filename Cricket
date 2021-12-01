@@ -1,0 +1,224 @@
+
+#include <stdio.h>
+#include<string.h>
+struct player
+{
+    char name[20];
+    char country[20];
+    char cat[20];
+    int age;
+    int odis;
+    int i20s;
+    int wic;
+    int aver;
+};
+
+int accept(struct player p[],int c);
+int display(struct player p[],int c);
+int bats(struct player p[],int c);
+int have(struct player p[],int c);
+int hage(struct player p[],int c);
+int hwic(struct player p[],int c);
+int bow(struct player p[],int c);
+int dispar(struct player p[],int c);
+int swap(int *a,int *b);
+int main()
+{
+    int a,b,c;
+    printf("Enter number of player\n");
+    scanf("%d",&b);
+    struct player p[b];
+    accept(p,b);
+    abc:
+    printf("Choose from the following-\n");
+    printf("1.Display\n");
+    printf("2.Number of batsman of particular country\n");
+    printf("3.Batsman with highest average batting score\n");
+    printf("4.Batsman with highest age\n");
+    printf("5.Number of bowler of particular country\n");
+    printf("6.Bowler with highest average wicket taken\n");
+    printf("7.Player entire details\n");
+    printf("8.Exit\n");
+    scanf("%d",&a);
+    switch(a)
+    {
+        case 1:
+        {
+            display(p,b);
+            break;
+        }
+        case 2:
+        {
+            bats(p,b);
+            break;
+        }
+        case 3:
+        {
+            have(p,b);
+            break;
+        }
+        case 4:
+        {
+            hage(p,b);
+            break;
+        }
+        case 5:
+        {
+            bow(p,b);
+            break;
+        }
+        case 6:
+        {
+            hwic(p,b);
+            break;
+        }
+        case 7:
+        {
+            dispar(p,b);
+            break;
+        }
+    }
+    if(a!=8)
+    goto abc;
+    return 0;
+}
+int accept(struct player p[],int c)
+{
+    int i;
+    printf("Enter player details-\n");
+    for(i=0;i<c;i++)
+    {
+    printf("Enter player name-\n");
+    scanf("%s",p[i].name);
+    printf("Enter player age-\n");
+    scanf("%d",&p[i].age);
+    printf("Enter player country-\n");
+    scanf("%s",p[i].country);
+    printf("Enter player category-(Batsman/Bowler/Wicket Keeper/All Rounder)\n");
+    scanf("%s",p[i].cat);
+    printf("Enter number of ODIs played-\n");
+    scanf("%d",&p[i].odis);
+    printf("Enter number of Internation T20 played-\n");
+    scanf("%d",&p[i].i20s);
+    printf("Enter player average batting score-\n");
+    scanf("%d",&p[i].aver);
+    printf("Enter number of wicket taken-\n");
+    scanf("%d",&p[i].wic);
+    }
+}
+int display(struct player p[],int c)
+{
+    int i;
+    printf("Name\tAge\tCategory\tCountry\tNo. of ODIs Played\tNo. of Internation T20 Played\tAverage batting score\tWickets Taken\n");
+    for(i=0;i<c;i++)
+    {
+    printf("%s\t%d\t%s\t%s\t%d\t%d\t%d\t%d\n",p[i].name,p[i].age,p[i].cat,p[i].country,p[i].odis,p[i].i20s,p[i].aver,p[i].wic);
+    }
+}
+int bats(struct player p[],int c)
+{
+    int i,count=0;
+    char a[20];
+    printf("Enter country for batsman-\n");
+    scanf("%s",a);
+    for(i=0;i<c;i++)
+    {
+        if(strcmp(a,p[i].country)==0)
+        {
+        if(strcmp(p[i].cat,"Batsman")==0)
+        {
+        count++;
+        }
+        }
+    }
+    printf("Number of batsman- %d\n",count);
+}
+int have(struct player p[],int c)
+{
+    int i,j;
+    for(i=0;i<c-1;i++)
+    {
+        for(j=0;j<c-i-1;j++)
+        {
+            if(p[j].aver<p[j+1].aver)
+            {
+                swap(&p[j].aver,&p[j+1].aver);
+            }
+        }
+    }
+    printf("Average batting Score\n");
+    for(i=0;i<c;i++)
+    {
+      printf("%d\n",p[i].aver);
+    }
+}
+int swap(int *a,int *b)
+{
+    float temp=*a;
+    *a=*b;
+    *b=temp;
+}
+int hage(struct player p[],int c)
+{
+    int i,count=0;
+    for(i=0;i<c;i++)
+    {
+        if(p[i].age<=p[i+1].age)
+        {
+            count=i;
+        }
+    }
+    printf("Highest aged Player- %s\n",p[count].name);
+}
+int bow(struct player p[],int c)
+{
+    int i,count=0;
+    char a[20];
+    printf("Enter country for bowler-\n");
+    scanf("%s",a);
+    for(i=0;i<c;i++)
+    {
+        if(strcmp(a,p[i].country)==0)
+        {
+        if(strcmp(p[i].cat,"Bowler")==0)
+        {
+        count++;
+        }
+        }
+    }
+    printf("Number of bowler- %d\n",count);
+}
+int hwic(struct player p[],int c)
+{
+    int ctr=p[0].wic;
+    int count=0;
+    for(int i=0;i<c;i++)
+    {
+        if(strcmp("Bowler",p[i].cat)==0)
+        {
+            if (p[i].wic>ctr)
+            {
+                ctr=p[i].wic;
+                count=i;
+            }
+        }
+    }
+    printf("Bowler with highest wicket- %s-%d\n",p[count].name,p[count].wic);
+}
+int dispar(struct player p[],int c)
+{
+    int i,j;
+    char name[50];
+    printf("Enter player name-\n");
+    scanf("%s",name);
+    for(i=0;i<c;i++)
+    {
+        if(strcmp(name,p[i].name)==0)
+        {
+            j=i;
+            break;
+        }
+    }
+    printf("Name\tAge\tCategory\tCountry\tNo. of ODIs Played\tNo. of Internation T20 Played\tAverage batting score\n");
+    printf("%s\t%d\t%s\t%s\t%d\t%d\t%d\n",p[j].name,p[j].age,p[j].cat,p[j].country,p[j].odis,p[j].i20s,p[j].aver);
+}
